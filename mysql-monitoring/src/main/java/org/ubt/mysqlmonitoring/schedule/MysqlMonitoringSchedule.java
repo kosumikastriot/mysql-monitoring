@@ -1,5 +1,4 @@
 package org.ubt.mysqlmonitoring.schedule;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -36,6 +35,13 @@ public class MysqlMonitoringSchedule {
     public void getDataMonitoringForDBMS(){
         DataResultDBMS dataResult = new DataResultDBMS();
         dataResult.setSchemaDiskSpace(monitoringRepository.getSchemaDiskSpace());
+        dataResult.setLastSelectQueries(monitoringRepository.getLastSelectQueries());
+        dataResult.setLastInsertQueries(monitoringRepository.getLastInsertQueries());
+        dataResult.setLastUpdateQueries(monitoringRepository.getLastUpdateQueries());
+        dataResult.setLastDeleteQueries(monitoringRepository.getLastDeleteQueries());
+        dataResult.setSlowQueriesNumber(monitoringRepository.getSlowQueriesNumber());
+        dataResult.setTopSlowQueries(monitoringRepository.getTopSlowQueries());
+        dataResult.setClientQueriesNumber(monitoringRepository.getClientQueriesNumber());
         messageManager2.sendMessageForDBMS(dataResult);
     }
 }
