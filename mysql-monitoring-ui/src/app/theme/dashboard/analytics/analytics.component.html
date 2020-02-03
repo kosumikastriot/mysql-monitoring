@@ -1,86 +1,179 @@
 <div class="page-body">
 
   <div class="row">
-    <div class="col-lg-6">
-      <app-card [title]="'DISK SPACE USAGE'" [headerContent]="'Total disk space usage grouped by the database name'">
-        <div class="table-responsive">
-          <table class="table" >
 
-            <tr>
-              <th>Schema Name</th>
-              <th>Space usage</th>
-            </tr>
-
-            <tr *ngFor="let theRow of schemaDiskSpaceData">
-              <td>{{ theRow[0] }}</td>
-              <td>{{ theRow[1]}} MB</td>
-            </tr>
-
-          </table>
-        </div>
-      </app-card>
-    </div>
-  </div>
-
-  <div class="row">
-
-    <div class="col-md-6 col-xl-3">
-      <div class="card ">
+    <div class="col-lg-3">
+      <div class="card">
         <div class="card-block">
-          <h6 class="m-b-20">Total Queries</h6>
-          <h2 class="text-right"><i class="ti-pie-chart f-left"></i><span>254</span></h2>
-          <p class="m-b-0">Total queries in the log file</p>
+          <h6 class="m-b-20">Queries Number</h6>
+          <h2 class="text-right"><i class="ti-pie-chart f-left"></i><span>{{ clientQueriesNumber }}</span></h2>
+          <p class="m-b-0">Queries executed by the server.</p>
         </div>
       </div>
     </div>
 
-    <div class="col-md-6 col-xl-3">
-      <div class="card ">
+    <div class="col-lg-3">
+      <div class="card">
         <div class="card-block">
           <h6 class="m-b-20">Slow Queries</h6>
-          <h2 class="text-right"><i class="ti-reload f-left"></i><span>5</span></h2>
-          <p class="m-b-0">Queries with avg. duration >= 1s</p>
+          <h2 class="text-right"><i class="ti-reload f-left"></i><span>{{ slowQueriesNumber }}</span></h2>
+          <p class="m-b-0">Queries with duration >= 1s</p>
         </div>
       </div>
     </div>
 
-    <div class="col-md-6 col-xl-3">
-      <div class="card ">
-        <div class="card-block">
-          <h6 class="m-b-20">Avg. Duration</h6>
-          <h2 class="text-right"><i class="ti-timer f-left"></i><span>0.002s</span></h2>
-          <p class="m-b-0">How slow were your queries?</p>
-        </div>
-      </div>
-    </div>
+<!--    <div class="col-lg-3">-->
+<!--      <div class="card">-->
+<!--        <div class="card-block">-->
+<!--          <h6 class="m-b-20">Total Queries</h6>-->
+<!--          <h2 class="text-right"><i class="ti-pie-chart f-left"></i><span>254</span></h2>-->
+<!--          <p class="m-b-0">Total queries in the log file</p>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+
+<!--    <div class="col-lg-3">-->
+<!--      <div class="card">-->
+<!--        <div class="card-block">-->
+<!--          <h6 class="m-b-20">Total Queries</h6>-->
+<!--          <h2 class="text-right"><i class="ti-pie-chart f-left"></i><span>254</span></h2>-->
+<!--          <p class="m-b-0">Total queries in the log file</p>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
 
   </div>
 
   <div class="row">
-    <div class="col-lg-12">
-      <app-card [title]="'Queries Container'" [headerContent]="'Total disk space usage grouped by the database name'">
-        <div class="table-responsive">
-          <table class="table">
+      <div class="col-lg-6">
+        <app-card [title]="'DISK SPACE USAGE'" [headerContent]="'Total disk space usage grouped by the database name'">
+          <div class="table-responsive">
+            <table class="table" >
+              <tr>
+                <th>Schema Name</th>
+                <th>Space usage</th>
+              </tr>
+              <tr *ngFor="let theRow of schemaDiskSpaceData">
+                <td>{{ theRow[0] }}</td>
+                <td>{{ theRow[1]}} MB</td>
+              </tr>
+            </table>
+          </div>
+        </app-card>
+      </div>
 
-            <tr>
-              <th>Schema Name</th>
-              <th>Space usage</th>
-            </tr>
+      <div class="col-lg-6">
+        <app-card [title]="'Slow Queries'" [headerContent]="'The top 10 statements by longest average run time'">
+          <div class="table-responsive">
+            <table class="table">
+              <tr>
+                <th>Query</th>
+                <th>Duration (s)</th>
+              </tr>
+              <tr *ngFor="let slowQueriesRow of topSlowQueriesData">
+                <td>{{ slowQueriesRow[0] }}</td>
+                <td>{{ slowQueriesRow[1] }} s</td>
+              </tr>
+            </table>
+          </div>
+        </app-card>
+      </div>
+    </div>
 
-            <tr>
-              <td>Smarthome</td>
-              <td>11 MB</td>
-            </tr>
 
-            <tr>
-              <td>wp_aleschra</td>
-              <td>24 MB</td>
-            </tr>
-
-          </table>
+  <div class="row">
+    <!-- tabs card start -->
+    <div class="col-sm-12">
+      <app-card [cardClass]="'tab-card'" [cardOptionBlock]="true">
+        <div class="md-tabs">
+          <ngb-tabset>
+            <ngb-tab title="Select Queries">
+              <ng-template ngbTabContent>
+                <div [@fadeInOutTranslate] class="m-t-15">
+                  <div class="table-responsive">
+                    <table class="table">
+                      <tr>
+                        <th>Id</th>
+                        <th>Duration</th>
+                        <th>Query</th>
+                      </tr>
+                      <tr *ngFor="let theQueryRow of lastSelectQueriesData">
+                        <td>{{ theQueryRow[0] }}</td>
+                        <td>{{ theQueryRow[1] }}</td>
+                        <td>{{ theQueryRow[2] }}</td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+              </ng-template>
+            </ngb-tab>
+            <ngb-tab title="Insert Queries">
+              <ng-template ngbTabContent>
+                <div [@fadeInOutTranslate] class="m-t-15">
+                  <div class="table-responsive">
+                    <table class="table">
+                      <tr>
+                        <th>Id</th>
+                        <th>Duration</th>
+                        <th>Query</th>
+                      </tr>
+                      <tr *ngFor="let theQueryInsertRow of lastInsertQueriesData">
+                        <td>{{ theQueryInsertRow[0] }}</td>
+                        <td>{{ theQueryInsertRow[1] }}</td>
+                        <td>{{ theQueryInsertRow[2] }}</td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+              </ng-template>
+            </ngb-tab>
+            <ngb-tab title="Update Queries">
+              <ng-template ngbTabContent>
+                <div [@fadeInOutTranslate] class="m-t-15">
+                  <div class="table-responsive">
+                    <table class="table">
+                      <tr>
+                        <th>Id</th>
+                        <th>Duration</th>
+                        <th>Query</th>
+                      </tr>
+                      <tr *ngFor="let theQueryRow of lastUpdateQueriesData">
+                        <td>{{ theQueryRow[0] }}</td>
+                        <td>{{ theQueryRow[1] }}</td>
+                        <td>{{ theQueryRow[2] }}</td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+              </ng-template>
+            </ngb-tab>
+            <ngb-tab title="Delete Queries">
+              <ng-template ngbTabContent>
+                <div [@fadeInOutTranslate] class="m-t-15">
+                  <div class="table-responsive">
+                    <table class="table">
+                      <tr>
+                        <th>Id</th>
+                        <th>Duration</th>
+                        <th>Query</th>
+                      </tr>
+                      <tr *ngFor="let theQueryRow of lastDeleteQueriesData">
+                        <td>{{ theQueryRow[0] }}</td>
+                        <td>{{ theQueryRow[1] }}</td>
+                        <td>{{ theQueryRow[2] }}</td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+              </ng-template>
+            </ngb-tab>
+          </ngb-tabset>
         </div>
       </app-card>
     </div>
+    <!-- tabs card end -->
   </div>
+
+
 
 </div>

@@ -34,12 +34,32 @@ export class AnalyticsComponent implements OnInit {
   public amountCardData: any;
   public amountCardOption: any;
 
+  slowQueriesNumber: number;
+  clientQueriesNumber: number;
+
   schemaDiskSpace: string;
   schemaDiskSpaceData: {}[] = [];
 
+  lastSelectQueries: string;
+  lastSelectQueriesData: {}[] = [];
+
+  lastInsertQueries: string;
+  lastInsertQueriesData: {}[] = [];
+
+  lastUpdateQueries: string;
+  lastUpdateQueriesData: {}[] = [];
+
+  lastDeleteQueries: string;
+  lastDeleteQueriesData: {}[] = [];
+
+  topSlowQueries: string;
+  topSlowQueriesData: {}[] = [];
+
+
+
 
   //Websocket
-  url = 'http://localhost:8080/mysql-monitoring-ws'
+  url = 'http://localhost:8080/mysql-monitoring-ws';
   client: any;
 
   constructor() { }
@@ -266,20 +286,46 @@ export class AnalyticsComponent implements OnInit {
 
 
 
-  connection(){
-    let ws = new SockJS (this.url);
+  connection() {
+    const ws = new SockJS (this.url);
     this.client = Stomp.over(ws);
-    let that = this;
+    const that = this;
 
     this.client.connect({}, function(frame) {
       that.client.subscribe('/topicDBMS/processDBMS', (message) => {
-        if(message.body) {
+        if (message.body) {
           let json = JSON.parse(message.body);
           that.schemaDiskSpace = json.schemaDiskSpace;
+          that.slowQueriesNumber = json.slowQueriesNumber;
+          that.lastSelectQueries = json.lastSelectQueries;
+          that.lastInsertQueries = json.lastInsertQueries;
+          that.lastUpdateQueries = json.lastUpdateQueries;
+          that.lastDeleteQueries = json.lastDeleteQueries;
+          that.topSlowQueries = json.topSlowQueries;
+          that.clientQueriesNumber = json.clientQueriesNumber;
 
           for (let i = 0; i < json.schemaDiskSpace.length; i++) {
-            console.log (json.schemaDiskSpace);
             that.schemaDiskSpaceData[i] = json.schemaDiskSpace[i];
+          }
+
+          for (let i = 0; i < json.lastSelectQueries.length; i++) {
+            that.lastSelectQueriesData[i] = json.lastSelectQueries[i];
+          }
+
+          for (let i = 0; i < json.lastInsertQueries.length; i++) {
+            that.lastInsertQueriesData[i] = json.lastInsertQueries[i];
+          }
+
+          for (let i = 0; i < json.lastUpdateQueries.length; i++) {
+            that.lastUpdateQueriesData[i] = json.lastUpdateQueries[i];
+          }
+
+          for (let i = 0; i < json.lastDeleteQueries.length; i++) {
+            that.lastDeleteQueriesData[i] = json.lastDeleteQueries[i];
+          }
+
+          for (let i = 0; i < json.topSlowQueries.length; i++) {
+            that.topSlowQueriesData[i] = json.topSlowQueries[i];
           }
         }
       });

@@ -83,6 +83,8 @@ export class DefaultComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.connection();
 
+    //CPU
+
     //Data Traffic
       this.chartTraffic = c3.generate({
       bindto: '#chart-traffic',
@@ -206,7 +208,6 @@ export class DefaultComponent implements OnInit, AfterViewInit {
         if(message.body) {
           let json = JSON.parse(message.body);
 
-
           that.maxRamSize = json.maxRamSize;
           that.serverUptime = json.serverUptime;
           that.serverMemoryAllocated = json.serverMemoryAllocated;
@@ -230,8 +231,6 @@ export class DefaultComponent implements OnInit, AfterViewInit {
           });
 
           that.callChart();
-
-
 
         }
       });
