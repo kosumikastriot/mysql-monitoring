@@ -27,7 +27,7 @@ public class MysqlMonitoringSchedule {
         dataResult.setThreadsConnected(monitoringRepository.getThreadsConnected());
         dataResult.setThreadsRunning(monitoringRepository.getThreadsRunning());
         dataResult.setBytesSent(monitoringRepository.getBytesSent());
-        dataResult.setBytesSent(monitoringRepository.getBytesReceived());
+        dataResult.setBytesReceived(monitoringRepository.getBytesReceived());
         messageManager.sendMessage(dataResult);
     }
 

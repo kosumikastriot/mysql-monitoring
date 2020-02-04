@@ -135,7 +135,7 @@ public class DataResult {
     }
 
     public double getBytesReceived(){
-        String bytesToMegaByte = df.format((bytesSent/1024)/1024);
+        String bytesToMegaByte = df.format((bytesReceived/1024)/1024);
         return Double.parseDouble(String.valueOf(bytesToMegaByte));
     }
 
