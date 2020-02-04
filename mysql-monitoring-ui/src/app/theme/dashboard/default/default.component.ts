@@ -16,6 +16,8 @@ import '../../../../assets/charts/amchart/ammap.js';
 import '../../../../assets/charts/amchart/worldLow.js';
 import '../../../../assets/charts/amchart/continentsLow.js';
 
+import { NgxSpinnerService } from 'ngx-spinner';
+
 
 @Component({
   selector: 'app-default',
@@ -77,11 +79,18 @@ export class DefaultComponent implements OnInit, AfterViewInit {
       position: ['bottom', 'right'],
     };
 
-    constructor() {
+    constructor(private spinner: NgxSpinnerService) {
     }
 
   ngOnInit() {
     this.connection();
+
+    this.spinner.show();
+ 
+    setTimeout(() => {
+        /** spinner ends after 5 seconds */
+        this.spinner.hide();
+    }, 3000);
 
     //CPU
 

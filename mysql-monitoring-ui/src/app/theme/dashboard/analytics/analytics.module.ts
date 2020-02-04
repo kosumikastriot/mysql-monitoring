@@ -4,13 +4,15 @@ import { AnalyticsComponent } from './analytics.component';
 import {AnalyticsRoutingModule} from './analytics-routing.module';
 import {SharedModule} from '../../../shared/shared.module';
 import {ChartModule} from 'angular2-chartjs';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 @NgModule({
   imports: [
     CommonModule,
     AnalyticsRoutingModule,
     SharedModule,
-    ChartModule
+    ChartModule,
+    NgxSpinnerModule
   ],
   declarations: [AnalyticsComponent]
 })

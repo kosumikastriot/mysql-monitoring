@@ -12,6 +12,7 @@ import '../../../../assets/charts/amchart/light.js';
 import '../../../../assets/charts/amchart/ammap.js';
 import '../../../../assets/charts/amchart/worldLow.js';
 import '../../../../assets/charts/amchart/continentsLow.js';
+import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
   selector: 'app-analytics',
@@ -62,9 +63,14 @@ export class AnalyticsComponent implements OnInit {
   url = 'http://localhost:8080/mysql-monitoring-ws';
   client: any;
 
-  constructor() { }
+  constructor(private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
+    this.spinner.show();
+    setTimeout(() => {
+      /** spinner ends after 5 seconds */
+      this.spinner.hide();
+    }, 3000);
     this.connection();
     setTimeout(() => {
       AmCharts.makeChart('visitor-list-graph', {
