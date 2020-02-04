@@ -135,7 +135,7 @@ export class DefaultComponent implements OnInit, AfterViewInit {
       donut: {
         title: 'RAM Allocation'
       }
-    })
+    });
 
 
     //Chart for CPU
@@ -220,7 +220,13 @@ export class DefaultComponent implements OnInit, AfterViewInit {
           if(that.dataSentCount > 0){
             that.data_sent[that.dataSentCount] = json.bytesSent;
             that.data_received[that.dataSentCount] = json.bytesReceived;
-              that.dataSentCount++;
+            if (that.dataSentCount >= 20){
+              that.data_sent.splice(1, 1);
+              that.data_received.splice(1, 1);
+              that.dataSentCount--;
+            }
+            that.dataSentCount++;
+
           }
 
           that.chartTraffic.load({
