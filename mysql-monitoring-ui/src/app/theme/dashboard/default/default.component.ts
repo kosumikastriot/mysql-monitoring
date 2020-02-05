@@ -90,7 +90,7 @@ export class DefaultComponent implements OnInit, AfterViewInit {
     setTimeout(() => {
         /** spinner ends after 5 seconds */
         this.spinner.hide();
-    }, 3000);
+    }, 2000);
 
     //CPU
 
@@ -124,7 +124,7 @@ export class DefaultComponent implements OnInit, AfterViewInit {
       bindto: '#chart-ram',
       data: {
         columns: [
-          ['MySQL Usage (' + (this.serverMemoryAllocated) + " MB)", this.serverMemoryAllocated],
+          ['Usage (' + (this.serverMemoryAllocated) + " MB)", this.serverMemoryAllocated],
           ['Capacity (' + (this.maxRamSize) + " MB)", this.maxRamSize-this.serverMemoryAllocated],
         ],
         type: 'donut',
@@ -173,14 +173,15 @@ export class DefaultComponent implements OnInit, AfterViewInit {
         title: 'CPU Usage'
       }
     });
-
+    
     //Chart for Disk
     const chartDisk = c3.generate({
       bindto: '#chart-disk',
       data: {
+        
         columns: [
-          ['Used (' + (this.diskSize - this.diskFreeSpace) + " GB)", this.diskSize - this.diskFreeSpace],
-          ['Capacity (' + this.diskSize + " GB)", this.diskSize],
+          ['Free space (' + (this.diskFreeSpace) + " GB)", this.diskFreeSpace],
+          ['Used space (' + (this.diskSize - this.diskFreeSpace) + " GB)", this.diskSize - this.diskFreeSpace]
         ],
         type: 'donut',
         onclick: function (d, i) {
@@ -197,7 +198,7 @@ export class DefaultComponent implements OnInit, AfterViewInit {
         pattern: ['#4C5667', '#ffcb80']
       },
       donut: {
-        title: 'DISK Usage'
+        title: 'Capacity (' + this.diskSize + 'GB)' 
       }
     });
 

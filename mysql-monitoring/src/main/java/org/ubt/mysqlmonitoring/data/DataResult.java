@@ -12,14 +12,14 @@ import java.text.DecimalFormat;
 public class DataResult {
 
     @Setter
-    private Long maxRamSize;
+    private Long maxRamSize = 0L;
 
     @Getter
     @Setter
     private String serverUptime;
 
     @Setter
-    private Long serverMemoryAllocated;
+    private Long serverMemoryAllocated = 0L;
 
     @Setter
     private Long serverCpuLoad;
@@ -55,20 +55,38 @@ public class DataResult {
                 InputStreamReader(proc.getInputStream()));
 
         String s = null;
-        int i = 0;
+
         while ((s = stdInput.readLine()) != null) {
-            if(i==2){
-                this.maxRamSize = (Long.parseLong(s.trim())/1024)/1024;
-                break;
+
+            if(!s.trim().equals("") && s != null) {
+                if(Character.isDigit(s.charAt(0))) {
+                    this.maxRamSize += (Long.parseLong(s.trim()));
+                }
             }
-            i++;
         }
-        return this.maxRamSize;
+        return (this.maxRamSize/1024)/1024;
     }
 
     //RAM Allocation from MySQL
-    public Long getServerMemoryAllocated() {
-        return (serverMemoryAllocated/1024)/1024;
+    public Long getServerMemoryAllocated() throws IOException {
+
+        String[] commands = {"cmd.exe", "/c", " wmic os get freephysicalmemory"};
+
+        Process proc = Runtime.getRuntime().exec(commands);
+        BufferedReader stdInput = new BufferedReader(new
+                InputStreamReader(proc.getInputStream()));
+
+        String s = null;
+
+        while ((s = stdInput.readLine()) != null) {
+
+            if(!s.trim().equals("") && s != null) {
+                if(Character.isDigit(s.charAt(0))) {
+                    this.serverMemoryAllocated += (Long.parseLong(s.trim()));
+                }
+            }
+        }
+        return (serverMemoryAllocated/1024);
     }
 
     //Cpu Load
@@ -126,6 +144,7 @@ public class DataResult {
         }
 
         this.diskFreeSpace = ((theSize/1024)/1024)/1024;
+        System.err.println("free size " + this.diskFreeSpace);
         return ((theSize/1024)/1024)/1024;
     }
 

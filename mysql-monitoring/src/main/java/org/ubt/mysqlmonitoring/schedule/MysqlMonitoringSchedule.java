@@ -23,7 +23,6 @@ public class MysqlMonitoringSchedule {
     public void getDataMonitoring(){
         DataResult dataResult = new DataResult();
         dataResult.setServerUptime(monitoringRepository.getServerUptime());
-        dataResult.setServerMemoryAllocated(monitoringRepository.getServerMemoryAllocated());
         dataResult.setThreadsConnected(monitoringRepository.getThreadsConnected());
         dataResult.setThreadsRunning(monitoringRepository.getThreadsRunning());
         dataResult.setBytesSent(monitoringRepository.getBytesSent());
@@ -35,6 +34,8 @@ public class MysqlMonitoringSchedule {
     public void getDataMonitoringForDBMS(){
         DataResultDBMS dataResult = new DataResultDBMS();
         dataResult.setSchemaDiskSpace(monitoringRepository.getSchemaDiskSpace());
+
+        dataResult.setServerMemoryAllocated(monitoringRepository.getServerMemoryAllocated());
         dataResult.setLastSelectQueries(monitoringRepository.getLastSelectQueries());
         dataResult.setLastInsertQueries(monitoringRepository.getLastInsertQueries());
         dataResult.setLastUpdateQueries(monitoringRepository.getLastUpdateQueries());

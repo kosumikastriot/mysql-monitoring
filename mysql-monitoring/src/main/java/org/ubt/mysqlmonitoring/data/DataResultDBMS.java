@@ -21,6 +21,9 @@ public class DataResultDBMS {
     private List<Object[]> lastInsertQueries;
 
     @Setter
+    private Long serverMemoryAllocated;
+
+    @Setter
     @Getter
     private List<Object[]> lastUpdateQueries;
 
@@ -39,5 +42,10 @@ public class DataResultDBMS {
     @Getter
     @Setter
     private int clientQueriesNumber;
+
+    //RAM Allocation from MySQL
+    public Long getServerMemoryAllocated() {
+        return (serverMemoryAllocated/1024)/1024;
+    }
 
 }

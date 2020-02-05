@@ -38,6 +38,8 @@ export class AnalyticsComponent implements OnInit {
   slowQueriesNumber: number;
   clientQueriesNumber: number;
 
+  serverMemoryAllocated: number;
+
   schemaDiskSpace: string;
   schemaDiskSpaceData: {}[] = [];
 
@@ -309,6 +311,7 @@ export class AnalyticsComponent implements OnInit {
           that.lastDeleteQueries = json.lastDeleteQueries;
           that.topSlowQueries = json.topSlowQueries;
           that.clientQueriesNumber = json.clientQueriesNumber;
+          that.serverMemoryAllocated = json.serverMemoryAllocated;
 
           for (let i = 0; i < json.schemaDiskSpace.length; i++) {
             that.schemaDiskSpaceData[i] = json.schemaDiskSpace[i];
